@@ -14,6 +14,31 @@ Installation
    west flash
 ```
 
+Using the blinky sample
+***********************
+
+
+launch picocom (or other terminal emulator) to see the output of the sample
+press the button to see the callback in the terminal and the leds blinky
+
+```
+picocom /dev/ttyACM1  -b115200
+
+Type [C-a] [C-h] to see available commands
+Terminal ready
+*** Booting Zephyr OS build v4.0.0-rc2 ***
+Set up button at gpio@842500 pin 8
+Press the button
+Toggled led0; counter=0
+Toggled led1; counter=0
+Button pressed at 308907
+btn pressed val: 1
+Toggled led0; counter=1
+
+```
+
+
+
 Overview
 ********
 
