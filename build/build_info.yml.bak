@@ -1,5 +1,0 @@
-west:
-  command: /home/pslavkin/z/env/bin/west build -b nrf9161dk/nrf9161 -s . --pristine
-    -d build
-  topdir: /home/pslavkin/z/zephyrproject
-  version: 1.3.0
