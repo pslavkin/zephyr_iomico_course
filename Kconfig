@@ -1,0 +1,20 @@
+menu "iomico options"
+
+config IOMICO_OPTION_A
+    bool "IOMICO option A"
+    default n
+
+config IOMICO_OPTION_B
+    int "iomico option B"
+    default 10
+
+rsource "services/Kconfig.services"
+
+
+endmenu
+
+menu "zephyr options"
+
+source "Kconfig.zephyr"
+
+endmenu
