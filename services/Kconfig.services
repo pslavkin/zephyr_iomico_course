@@ -13,11 +13,12 @@ config IOMICO_SERVICES_A
 
 config IOMICO_SERVICES_B
     hex "option services number B" 
-    default 123
+    default bbb
 
 config IOMICO_SERVICES_C
     hex "option services number C" 
     default 1 if IOMICO_OPTION_A && IOMICO_OPTION_B > 10
+    default ccc
 
 config IOMICO_SERVICES_D
     bool "option services number D" 
