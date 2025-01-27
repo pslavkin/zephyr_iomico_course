@@ -2,7 +2,7 @@
 title: Task1
 ---
 
-# Task 1: Bringup
+# Task 1 - Bringup
 
 <img src="./pics/first_bringup.jpeg" width="350" title="iomico course first bringup">
 

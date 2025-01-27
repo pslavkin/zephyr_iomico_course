@@ -1,0 +1,30 @@
+description: "custom device tree binding for iomico zephyr course"
+
+compatible: "izc,custom-binding"
+
+include: [base.yaml]
+
+properties:
+  #this is a custom property for iomico zephyr course and must end in 's'...
+  #yep.. it must end in 's' as I tould you before
+  rango_s:
+    type: array
+    description: "array custom property for iomico zephyr course"
+    required: false
+
+
+  #this is a custom property for iomico zephyr course and must end in 's'...
+  #yep.. it must end in 's' as I tould you before
+  data_s:
+    type: phandle-array
+    description: "phandle-array custom property for iomico zephyr course"
+    required: false
+
+  "#data-cells":
+    type: int
+    required: false
+    description: "int custom property for iomico zephyr course"
+
+data_-cells:
+  - data1
+  - data2

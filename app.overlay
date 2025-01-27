@@ -1,0 +1,36 @@
+/ { 
+   #address-cells = <1>;
+   #size-cells = <1>;
+
+   zephyr,user {
+   //   data_s = <&node_a 22 44>;
+      ppp = <1>;
+   };
+
+   node_a: node_a@1000 {
+      compatible = "izc,custom-binding";
+      #address-cells = <2>;
+      #size-cells = <1>;
+
+      //data_-cells is a custom proprerty declared in custom-binding.yml
+      #data_-cells = <2>;
+
+      reg = <0x1000 1>;
+      node_aa: node_aa@20000000 {
+         compatible = "izc,custom-binding";
+         #address-cells = <2>;
+         #size-cells = <1>;
+         reg = <0x1000 0x5678 1>;
+
+         //rango_s is a custom proprerty declared in custom-binding.yml
+         rango_s = <0x0001 0x0002 0x0003 0x0004 0x0005 0x0006 0x0007 0x0008 0x0009 0x000A>;
+      };
+   };
+
+   node_b: node_b {
+      compatible = "izc,custom-binding";
+      // &node_a phandle
+      // 1 2 are specifiers
+      data_s = <&node_a 1 2>;
+   };
+};
