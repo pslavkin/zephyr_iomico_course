@@ -7,5 +7,7 @@ iomico zephyr course
 
 [Task1_2_3 - create T2 project + choose btw 3.6.0 and 3.7.0 + kconfig fragments](./doc/task1_2_3.md)
 
+[Task4 - logging system](./doc/task4.md)
+
 ## Pablo Slavkin <slavkin.pablo@gmail.com>
 <img src="./doc/pics/me.jpg" width="150" align="left" title="me making noise">
