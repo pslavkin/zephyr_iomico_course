@@ -1,16 +1,165 @@
 ---
-title: Task2
+title: Task1_2_3
 ---
 
-## Task2 - Kconfig fragments
+## Task 1 + 2 + 3
+
+### Task 1 - Zephyr project creation T2 style and CPP version selection
+
+<img src="./doc/pics/task1.jpg" width="450" align="center" title="task2">
+
+I create a new project called iomico_blinky that lives aside zephyr kernel
+
+```
+zephyr_course_iomico
+▸ build/
+▸ env/
+▸ iomico_blinky/
+▸ modules/
+▸ zephyr/
+```
+with this west.yml file
+
+```diff
+manifest:
+  defaults:
+    remote: upstream
+
+  remotes:
+    - name: upstream
+      url-base: https://github.com/zephyrproject-rtos
+
+  self:
+    path: iomico_blinky
+  #
+  # Please add items below based on alphabetical order
+  projects:
+    - name: zephyr
+      remote: upstream
+      #revision: main
+      revision: v3.6.0
+      import:
+        # By using name-allowlist we can clone only the modules that are
+        # strictly needed by the application.
+        name-allowlist:
+          - cmsis      # required by the ARM port
+          - hal_nordic # required by the custom_plank board (Nordic based)
+
+        #if not using name-allowlist, the following is an example of how to
+        #specify the modules to be imported one by one
+          #  projects:
+          #        - name: cmsis
+          #        #if not specified, the default remote is used
+          #          remote: upstream
+          #          revision: 4b96cbb174678dcd3ca86e11e1f24bc5f8726da0
+          #          path: modules/hal/cmsis
+          #          groups:
+          #            - hal
+```
+
+#### CPP version could be selected using menuconfig or just puttin the next
+defines in .prf file:
+
+```
+CONFIG_CPP=y
+CONFIG_STD_CPP17=y
+CONFIG_NEWLIB_LIBC=y
+CONFIG_NEWLIB_LIBC_NANO=y
+```
+
+### Task 2 - Zephyr version update
+
+<img src="./doc/pics/task2.jpg" width="450" align="center" title="task2">
+
+Modifying west.yml file to use v3.6.0/v3.7.0 version of zephyr and updating the
+zephyr version with west update command
+
+```diff
+  projects:
+    - name: zephyr
+      remote: upstream
+      #revision: main
+      #revision: v3.6.0
+      revision: v3.7.0
+      import:
+```
+
+```bash
+west update                                                                                      INT ✘
+=== updating zephyr (zephyr):
+Updating files: 100% (17053/17053), done.
+Warning: you are leaving 1770 commits behind, not connected to
+any of your branches:
+
+  4488ed1a20a tests: drivers: build_all: display: add config for 16-bit transfer
+  a68c1aa4add drivers: mipi_dbi_spi: add 16-bit transfer to C4
+  c809c3730df drivers: mipi_dbi_spi: splitting SPI write function
+  d0ba5a38c9f drivers: mipi_dbi_spi: splitting SPI read function
+ ... and 1766 more.
+
+If you want to keep them by creating a new branch, this may be a good time
+to do so with:
+
+ git branch <new-branch-name> 4488ed1a20a
+
+HEAD is now at 36940db938a release: Zephyr v3.7.0
+=== updating cmsis (modules/hal/cmsis):
+HEAD is now at 4b96cbb doc: Update documentations for CMSIS 5.9.0
+=== updating hal_nordic (modules/hal/nordic):
+Warning: you are leaving 103 commits behind, not connected to
+any of your branches:
+
+  e0e48c4 module: suit: Update blob to v5.0.0
+  cff1472 module: Remove Wi-Fi binary blobs
+  5fbccc3 Revert "nrfx: drivers: nrfx_uarte: skip flush workaround for BSIM target"
+  95ec8e4 codeowners: Delete unused file
+ ... and 99 more.
+
+If you want to keep them by creating a new branch, this may be a good time
+to do so with:
+
+ git branch <new-branch-name> e0e48c4
+```
+```bash
+HEAD is now at ab5cb2e nrfx: drivers: nrfx_gpiote: move enabling GPIOTE port interrupt
+    ~/zephyr_course_iomico  west update                                                                                   ✔  4s 
+=== updating zephyr (zephyr):
+Updating files: 100% (30581/30581), done.
+Previous HEAD position was 36940db938a release: Zephyr v3.7.0
+HEAD is now at 468eb56cf24 release: Zephyr v3.6.0
+=== updating cmsis (modules/hal/cmsis):
+HEAD is now at 4b96cbb doc: Update documentations for CMSIS 5.9.0
+=== updating hal_nordic (modules/hal/nordic):
+Warning: you are leaving 21 commits behind, not connected to
+any of your branches:
+
+  ab5cb2e nrfx: drivers: nrfx_gpiote: move enabling GPIOTE port interrupt
+  f311735 nrfx: allow enabling SPIM externally when CTRLSEL is present
+  cfe3ef1 mdk: Fix SAADC gain mask
+  fc02d66 nrfx: hal: auxpll: add additional APIs
+ ... and 17 more.
+
+If you want to keep them by creating a new branch, this may be a good time
+to do so with:
+
+ git branch <new-branch-name> ab5cb2e
+
+HEAD is now at dce8519 nrfx: samples: update to version 3.3
+    ~/zephyr_course_iomico   
+ ```
+
+
+### Task 3 - Kconfig segments
+
+<img src="./doc/pics/task3.jpg" width="450" align="center" title="task2">
 
 #### minimal answer:
 ```diff
 $ diff -u build/zephyr/.config.old build/zephyr/.config | grep -E '^\+[^+]' | sed 's/^\+//' >> iomico_blinky/prj.prj
 ```
-### Explanation of the task
+#### Explanation
 
-### method 1 - basic .conf file
+#### method 1 - basic .conf file
 
 after launch west build --pristine,  build/zephyr/.conf file will be generated
 based on board defconfig and prj.conf.
@@ -67,7 +216,7 @@ CONFIG_BOOT_DELAY=0
  the changed values in the .config file compared with the default values of the
  board configuration file (i.e. native_sim_defconfig) 
 
-### method 2 - diff .conf with .conf_old
+#### method 2 - diff .conf with .conf_old
 
 After second build the .config file will saved as .config_old and the new .config will be generated.
 i.e. using menuconfig to set CONFIG_BOOT_BANNER_STRING="BANNER1" to "BANNER2" and run the diff command:
@@ -120,7 +269,7 @@ west build -b native_sim -s iomico_blinky -d build --pristine
 note:
   in this case west will also try to find and merge a file under iomico_blinky/boards/<BOARD>_banner2.conf
 
-### method 3 - minimal defconfig
+#### method 3 - minimal defconfig
 
 menuconfig interface offer the ability to generate a minimal defconfig file
 using 'D' option
